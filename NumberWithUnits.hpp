@@ -22,7 +22,8 @@ namespace ariel
         std::vector<unitNode> v;
 
     public:
-        void read_units(ifstream);
+
+        void read_units(std::ifstream);
 
         NumberWithUnits(int, std::string);
 
