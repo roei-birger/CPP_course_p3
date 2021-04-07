@@ -1,6 +1,5 @@
 #pragma once //for once compiling
 
-#include <fstream>
 #include <vector>
 
 namespace ariel
