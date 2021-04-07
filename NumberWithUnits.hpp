@@ -11,21 +11,23 @@ namespace ariel
         {
             std::string nameOfUnit;
             std::string nameToComper;
-            int numToComper;
+            double numToComper;
 
-            unitNode(std::string name, std::string comperName, int comperNum)
+            unitNode(std::string name, std::string comperName, double comperNum)
                 : nameOfUnit(name), nameToComper(comperName), numToComper(comperNum)
             {
             }
         };
 
         std::vector<unitNode> v;
+        double num;
+        std::string name;
 
     public:
 
         void read_units(std::ifstream);
 
-        NumberWithUnits(int, std::string);
+        NumberWithUnits(double, std::string);
 
         //compare function
         bool operator==(const NumberWithUnits &n) const;
