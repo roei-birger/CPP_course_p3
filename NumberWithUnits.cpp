@@ -17,15 +17,15 @@ namespace ariel
     NumberWithUnits::NumberWithUnits(double n, std::string s)
     {
 
-        for (unsigned int i = 0; i < v.size(); i++)
-        {
-            if (v.at(i).nameOfUnit == s)
-            {
-                num = n;
-                name = s;
-                break;
-            }
-        }
+        // for (unsigned int i = 0; i < v.size(); i++)
+        // {
+        //     if (v.at(i).nameOfUnit == s)
+        //     {
+                 num = n;
+                 name = s;
+        //         break;
+        //     }
+        // }
         //throw invalid_argument("wrong input");
     }
 
@@ -60,6 +60,6 @@ namespace ariel
     NumberWithUnits operator*(const double num, const NumberWithUnits &n1) { return NumberWithUnits(1, "name"); }
 
     //input, output
-    std::ostream &operator<<(std::ostream &os, const NumberWithUnits &n) { return os << n.num << "[" << n.name << "]"; }
+    std::ostream &operator<<(std::ostream &os, const NumberWithUnits &n) { return os << to_string(n.num) << "[" << n.name << "]"; }
     std::istream &operator>>(std::istream &is, NumberWithUnits &n) { return is; }
 };
