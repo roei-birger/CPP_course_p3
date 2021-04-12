@@ -11,7 +11,9 @@ namespace ariel
 {
     void NumberWithUnits::read_units(ifstream &file)
     {
-        if(file){}
+        if (file)
+        {
+        }
     }
 
     NumberWithUnits::NumberWithUnits(double n, std::string s)
@@ -21,8 +23,8 @@ namespace ariel
         // {
         //     if (v.at(i).nameOfUnit == s)
         //     {
-                 num = n;
-                 name = s;
+        num = n;
+        name = s;
         //         break;
         //     }
         // }
@@ -38,8 +40,8 @@ namespace ariel
     bool NumberWithUnits::operator>=(const NumberWithUnits &n) const { return true; }
 
     //plus, minus function
-    bool NumberWithUnits::operator+=(const NumberWithUnits &n) { return true; }
-    bool NumberWithUnits::operator-=(const NumberWithUnits &n) { return true; }
+    NumberWithUnits &NumberWithUnits::operator+=(const NumberWithUnits &n) { return *this; }
+    NumberWithUnits &NumberWithUnits::operator-=(const NumberWithUnits &n) { return *this; }
 
     NumberWithUnits &NumberWithUnits::operator++() { return *this; }                              // prefix  - ++a
     const NumberWithUnits NumberWithUnits::operator++(int) { return NumberWithUnits(num, name); } // postfix - a++

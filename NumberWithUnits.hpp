@@ -38,8 +38,8 @@ namespace ariel
         bool operator>=(const NumberWithUnits &n) const;
 
         //plus, minus function
-        bool operator+=(const NumberWithUnits &n);
-        bool operator-=(const NumberWithUnits &n);
+        NumberWithUnits& operator+=(const NumberWithUnits &n);
+        NumberWithUnits& operator-=(const NumberWithUnits &n);
 
         NumberWithUnits &operator++();         // prefix  - ++a
         const NumberWithUnits operator++(int); // postfix - a++
