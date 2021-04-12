@@ -55,86 +55,151 @@ TEST_CASE("Equal function")
     CHECK_EQ(u6, u5);
     CHECK_EQ(u16, u15);
     CHECK_EQ(u15, u16);
-    CHECK_EQ(u17, u16);
+    CHECK_EQ(u17, u16); //diff type
     CHECK_EQ(u16, u17);
 }
 
-TEST_CASE("Equal function diff type")
+TEST_CASE("Equal function unconnected type")
 {
-    CHECK_THROWS(u12.operator==(u5)); //diff type
+    CHECK_THROWS(u12.operator==(u5));
     CHECK_THROWS(u5.operator==(u12));
+    CHECK_THROWS(u22.operator==(u1));
+    CHECK_THROWS(u19.operator==(u18));
 }
 
 TEST_CASE("not equal function")
 {
     CHECK_NE(u1, u2); //same type
     CHECK_NE(u2, u1);
+    CHECK_NE(u3, u4);
+    CHECK_NE(u7, u8);
+    CHECK_NE(u9, u10);
+    CHECK_NE(u11, u12);
+    CHECK_NE(u17, u18);
+    CHECK_NE(u21, u20); //diff type
+    CHECK_NE(u16, u18);
 }
 
-TEST_CASE("not equal function diff type")
+TEST_CASE("not equal function unconnected type")
 {
-    CHECK_THROWS(u11.operator!=(u4)); //diff type
+    CHECK_THROWS(u11.operator!=(u4));
     CHECK_THROWS(u4.operator!=(u11));
+    CHECK_THROWS(u12.operator!=(u5));
+    CHECK_THROWS(u5.operator!=(u12));
+    CHECK_THROWS(u22.operator!=(u1));
+    CHECK_THROWS(u19.operator!=(u18));
 }
 
 TEST_CASE("Less equal function")
 {
-    CHECK_LE(u1, u2); //same type
-    CHECK_LE(u2, u1);
+    CHECK_LE(u1, u1); //same type
+    CHECK_LE(u5, u6);
+    CHECK_LE(u6, u5);
+    CHECK_LE(u1, u2);
     CHECK_LE(u3, u4);
+    CHECK_LE(u7, u8);
+    CHECK_LE(u9, u10);
     CHECK_LE(u11, u12);
-    CHECK_LE(u9, u9);
+    CHECK_LE(u13, u14);
+    CHECK_LE(u17, u18);
+    CHECK_LE(u16, u17); //diff type
+    CHECK_LE(u16, u18);
+    CHECK_LE(u8, u9);
 }
 
-TEST_CASE("Less equal function diff type")
+TEST_CASE("Less equal function unconnected type")
 {
-    CHECK_THROWS(u11.operator<=(u4)); //diff type
+    CHECK_THROWS(u11.operator<=(u4));
     CHECK_THROWS(u4.operator<=(u11));
+    CHECK_THROWS(u12.operator<=(u5));
+    CHECK_THROWS(u5.operator<=(u12));
+    CHECK_THROWS(u22.operator<=(u1));
+    CHECK_THROWS(u19.operator<=(u18));
 }
 
 TEST_CASE("Less than function")
 {
-    CHECK_LT(u3, u4); //same type
+    CHECK_LT(u1, u2); //same type
+    CHECK_LT(u3, u4);
+    CHECK_LT(u7, u8);
+    CHECK_LT(u9, u10);
     CHECK_LT(u11, u12);
+    CHECK_LT(u13, u14);
+    CHECK_LT(u17, u18);
+    CHECK_LE(u16, u18); //diff type
+    CHECK_LE(u1, u4);
 }
 
-TEST_CASE("Less than function diff type")
+TEST_CASE("Less than function unconnected type")
 {
-    CHECK_THROWS(u11.operator<(u4)); //diff type
+    CHECK_THROWS(u11.operator<(u4));
     CHECK_THROWS(u4.operator<(u11));
+    CHECK_THROWS(u12.operator<(u5));
+    CHECK_THROWS(u5.operator<(u12));
+    CHECK_THROWS(u22.operator<(u1));
+    CHECK_THROWS(u19.operator<(u18));
 }
 
 TEST_CASE("greater equal function")
 {
-    CHECK_GE(u1, u2); //same type
+
+    CHECK_GE(u9, u9); //same type
+    CHECK_GE(u1, u1);
+    CHECK_GE(u5, u6);
+    CHECK_GE(u6, u5);
     CHECK_GE(u2, u1);
     CHECK_GE(u4, u3);
+    CHECK_GE(u8, u7);
+    CHECK_GE(u10, u9);
     CHECK_GE(u12, u11);
-    CHECK_GE(u9, u9);
+    CHECK_GE(u14, u13);
+    CHECK_GE(u18, u17);
+    CHECK_GE(u18, u16); //diff type
+    CHECK_GE(u4, u1);
 }
 
-TEST_CASE("greater  equal function diff type")
+TEST_CASE("greater  equal function unconnected type")
 {
-    CHECK_THROWS(u11.operator>=(u4)); //diff type
+    CHECK_THROWS(u11.operator>=(u4));
     CHECK_THROWS(u4.operator>=(u11));
+    CHECK_THROWS(u12.operator>=(u5));
+    CHECK_THROWS(u5.operator>=(u12));
+    CHECK_THROWS(u22.operator>=(u1));
+    CHECK_THROWS(u19.operator>=(u18));
 }
 
 TEST_CASE("greater than function")
 {
-    CHECK_GT(u4, u3); //same type
+    CHECK_GT(u2, u1); //same type
+    CHECK_GT(u4, u3);
+    CHECK_GT(u8, u7);
+    CHECK_GT(u10, u9);
     CHECK_GT(u12, u11);
+    CHECK_GT(u14, u13);
+    CHECK_GT(u18, u17);
+    CHECK_GE(u18, u16); //diff type
+    CHECK_GE(u4, u1);
 }
 
-TEST_CASE("greater than function diff type")
+TEST_CASE("greater than function unconnected type")
 {
-    CHECK_THROWS(u11.operator>(u4)); //diff type
+    CHECK_THROWS(u11.operator>(u4));
     CHECK_THROWS(u4.operator>(u11));
+    CHECK_THROWS(u12.operator>(u5));
+    CHECK_THROWS(u5.operator>(u12));
+    CHECK_THROWS(u22.operator>(u1));
+    CHECK_THROWS(u19.operator>(u18));
 }
 
 TEST_CASE("plus function same type")
 {
+    CHECK_EQ(u1 + u1, u2);
+    CHECK_EQ(u5 + u6, NumberWithUnits(4, "km"));
+    CHECK_EQ(u6 + u5, NumberWithUnits(4, "km"));
     CHECK_EQ(u15 + u16, NumberWithUnits(60, "min"));
     CHECK_EQ(u16 + u15, NumberWithUnits(60, "min"));
+    CHECK_EQ(u13 + u14, NumberWithUnits(90, "sec"));
+    CHECK_EQ(u17 + u18, NumberWithUnits(60.5, "hour"));
 }
 
 TEST_CASE("plus function connect type")
