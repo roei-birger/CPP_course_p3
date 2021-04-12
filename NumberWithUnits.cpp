@@ -60,6 +60,6 @@ namespace ariel
     NumberWithUnits operator*(const double num, const NumberWithUnits &n1) { return NumberWithUnits(1, "name"); }
 
     //input, output
-    std::ostream &operator<<(std::ostream &os, const NumberWithUnits &n) { return os << to_string(n.num) << "[" << n.name << "]"; }
+    std::ostream &operator<<(std::ostream &os, const NumberWithUnits &n) { return os << n.num << "[" << n.name << "]"; }
     std::istream &operator>>(std::istream &is, NumberWithUnits &n) { return is; }
 };
