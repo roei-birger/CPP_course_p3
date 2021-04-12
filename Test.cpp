@@ -204,8 +204,11 @@ TEST_CASE("plus function same type")
 
 TEST_CASE("plus function connect type")
 {
-    CHECK_EQ(u15 + u16, u18);
-    CHECK_EQ(u16 + u15, u18);
+    CHECK_EQ(u1 + u1, u2);
+    CHECK_EQ(u15 + u16, NumberWithUnits(1, "hour"));
+    CHECK_EQ(u16 + u15, NumberWithUnits(1, "hour"));
+    CHECK_EQ(u19 + u21, NumberWithUnits(3, "USD"));
+    CHECK_EQ(u2 + u1 + u1, NumberWithUnits(1100, "cm"));
 }
 
 TEST_CASE("plus function unconnected type")
@@ -234,29 +237,47 @@ TEST_CASE("plus equal function connect type")
     NumberWithUnits temp_hour_p(1, "hour");
     temp_hour_p += NumberWithUnits(30, "min");
     CHECK_EQ(temp_hour_p, NumberWithUnits(1.5, "hour"));
+
+    NumberWithUnits temp_USD_p(3, "USD");
+    temp_USD_p += NumberWithUnits(3.33, "ILS");
+    CHECK_EQ(temp_USD_p, NumberWithUnits(4, "USD"));
+
+    NumberWithUnits temp_ILS_p(3.33, "ILS");
+    temp_ILS_p += NumberWithUnits(1, "USD");
+    CHECK_EQ(temp_ILS_p, NumberWithUnits(6.66, "ILS"));
 }
 
 TEST_CASE("plus equal function unconnected type")
 {
-    CHECK_THROWS(u11 += u4); //diff type
+    CHECK_THROWS(u11 += u4); //unconnected type
     CHECK_THROWS(u4 += u11);
 }
 
 TEST_CASE("minus function same type")
 {
+    CHECK_EQ(u1 - u2, u1);
     CHECK_EQ(u15 - u16, NumberWithUnits(0, "min"));
     CHECK_EQ(u16 - u15, NumberWithUnits(0, "min"));
+    CHECK_EQ(NumberWithUnits(4, "km") - u5, u6);
+    CHECK_EQ(NumberWithUnits(4, "km") - u6, u5);
+    CHECK_EQ(NumberWithUnits(60, "min") - u15, u16);
+    CHECK_EQ(NumberWithUnits(60, "min") - u16, u15);
+    CHECK_EQ(NumberWithUnits(90, "sec") - u13, u14);
+    CHECK_EQ(NumberWithUnits(60.5, "hour") - u17, u18);
 }
 
 TEST_CASE("minus function connect type")
 {
     CHECK_EQ(u15 - u16, NumberWithUnits(0, "hour"));
     CHECK_EQ(u16 - u15, NumberWithUnits(0, "hour"));
+    CHECK_EQ(u21 - u19, NumberWithUnits(1, "USD"));
+    CHECK_EQ(u2 - u1 - u1, NumberWithUnits(900, "cm"));
+    CHECK_EQ(u2 - u1 - u1, NumberWithUnits(9, "m"));
 }
 
 TEST_CASE("minus function unconnected type")
 {
-    CHECK_THROWS(u11 - u4); //diff type
+    CHECK_THROWS(u11 - u4); //unconnected type
     CHECK_THROWS(u4 - u11);
 }
 
@@ -280,11 +301,19 @@ TEST_CASE("minus equal function connect type")
     NumberWithUnits temp_hour_m(1, "hour");
     temp_hour_m -= NumberWithUnits(30, "min");
     CHECK_EQ(temp_hour_m, NumberWithUnits(0.5, "hour"));
+
+    NumberWithUnits temp_USD_m(3, "USD");
+    temp_USD_m -= NumberWithUnits(3.33, "ILS");
+    CHECK_EQ(temp_USD_m, NumberWithUnits(2, "USD"));
+
+    NumberWithUnits temp_ILS_m(6.66, "ILS");
+    temp_ILS_m -= NumberWithUnits(1, "USD");
+    CHECK_EQ(temp_ILS_m, NumberWithUnits(3.33, "ILS"));
 }
 
 TEST_CASE("minus equal function unconnected type")
 {
-    CHECK_THROWS(u11 -= u4); //diff type
+    CHECK_THROWS(u11 -= u4); //unconnected type
     CHECK_THROWS(u4 -= u11);
 }
 
@@ -429,5 +458,9 @@ TEST_CASE("insert illigel char")
 
 TEST_CASE("Mathematical rules order of operations")
 {
-    CHECK_EQ(NumberWithUnits(-7, "hour"), NumberWithUnits(-7, "hour"));
+    CHECK_EQ(2 * NumberWithUnits(-7, "hour") + NumberWithUnits(7, "hour"), NumberWithUnits(-7, "hour"));
+    NumberWithUnits temp1(1, "USD");
+    CHECK_EQ(2 * ++temp1 + NumberWithUnits(3.33, "ILS") * 3, NumberWithUnits(7, "USD"));
+    NumberWithUnits temp2(1, "USD");
+    CHECK_EQ(2 * temp2++ + NumberWithUnits(3.33, "ILS") * 3, NumberWithUnits(5, "USD"));
 }
