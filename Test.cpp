@@ -421,25 +421,25 @@ TEST_CASE(">> function")
     iss >> temp_input;
     CHECK_EQ(temp_input, NumberWithUnits(20, "sec"));
 
-    // istringstream iss1(" 5 [USD]");
-    // iss >> temp_input;
-    // CHECK_EQ(temp_input, NumberWithUnits(5, "USD"));
+    istringstream iss1(" 5 [USD]");
+    iss >> temp_input;
+    CHECK_EQ(temp_input, NumberWithUnits(5, "USD"));
 
-    // istringstream iss2("6[ g ]");
-    // iss >> temp_input;
-    // CHECK_EQ(temp_input, NumberWithUnits(6, "g"));
+    istringstream iss2("6[ g ]");
+    iss >> temp_input;
+    CHECK_EQ(temp_input, NumberWithUnits(6, "g"));
 
-    // istringstream iss3(" 900 [ton] ");
-    // iss >> temp_input;
-    // CHECK_EQ(temp_input, NumberWithUnits(900, "ton"));
+    istringstream iss3(" 900 [ton] ");
+    iss >> temp_input;
+    CHECK_EQ(temp_input, NumberWithUnits(900, "ton"));
 
-    // istringstream iss4(" -16 [m] ");
-    // iss >> temp_input;
-    // CHECK_EQ(temp_input, NumberWithUnits(-16, "m"));
+    istringstream iss4(" -16 [m] ");
+    iss >> temp_input;
+    CHECK_EQ(temp_input, NumberWithUnits(-16, "m"));
 
-    // istringstream iss5(" -7 [hour] ");
-    // iss >> temp_input;
-    // CHECK_EQ(temp_input, NumberWithUnits(-7, "hour"));
+    istringstream iss5(" -7 [hour] ");
+    iss >> temp_input;
+    CHECK_EQ(temp_input, NumberWithUnits(-7, "hour"));
 }
 
 TEST_CASE("insert illigel char")
