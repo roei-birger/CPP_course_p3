@@ -10,11 +10,10 @@ namespace ariel
     {
         double num;
         std::string name;
-        static std::map<std::string, std::map<std::string, double>> u;
 
     public:
         static void read_units(std::ifstream &);
-
+        static std::map<std::string, std::map<std::string, double>> u;
         NumberWithUnits(double, std::string);
 
         //compare function
