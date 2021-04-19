@@ -2,16 +2,18 @@
 
 #include <fstream>
 #include <sstream>
+#include <map>
 
 namespace ariel
 {
     class NumberWithUnits
-    {       
+    {
         double num;
         std::string name;
+        static std::map<std::string, std::map<std::string, double>> u;
 
     public:
-        static void read_units(std::ifstream&);
+        static void read_units(std::ifstream &);
 
         NumberWithUnits(double, std::string);
 
@@ -24,8 +26,8 @@ namespace ariel
         bool operator>=(const NumberWithUnits &n) const;
 
         //plus, minus function
-        NumberWithUnits& operator+=(const NumberWithUnits &n);
-        NumberWithUnits& operator-=(const NumberWithUnits &n);
+        NumberWithUnits &operator+=(const NumberWithUnits &n);
+        NumberWithUnits &operator-=(const NumberWithUnits &n);
 
         NumberWithUnits &operator++();         // prefix  - ++a
         const NumberWithUnits operator++(int); // postfix - a++
