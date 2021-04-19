@@ -1,5 +1,4 @@
 #include "NumberWithUnits.hpp"
-#include <vector>
 #include <string>
 #include <iostream>
 #include <fstream>
@@ -9,26 +8,52 @@ using namespace std;
 
 namespace ariel
 {
+    map<string, map<string, double>> NumberWithUnits::u;
+
     void NumberWithUnits::read_units(ifstream &file)
     {
         if (file)
         {
+            string myText;
+            while (getline(file, myText))
+            {
+                string dadName, equalOperator, sunName;
+                double a, num;
+                istringstream iss(myText);
+                iss >> skipws >> a >> dadName >> equalOperator >> num >> sunName;
+                //cout << dadName << " is " << num << sunName << endl;
+                if (!u.count(dadName))
+                {
+                    u.insert({dadName, map<string, double>{}});
+                }
+                if (!u.count(sunName))
+                {
+                    u.insert({sunName, map<string, double>{}});
+                }
+
+                for (auto i : u.at(sunName))
+                {
+                    u.at(i.first).insert({dadName, 1 / (i.second * num)});
+                    u.at(dadName).insert({i.first, (i.second * num)});
+                }
+
+                for (auto i : u.at(dadName))
+                {
+                    u.at(i.first).insert({sunName, (i.second * num)});
+                    u.at(sunName).insert({i.first, 1 / (i.second * num)});
+                }
+
+                u.at(dadName).insert({sunName, num});
+                u.at(sunName).insert({dadName, (1 / num)});
+            }
         }
     }
 
     NumberWithUnits::NumberWithUnits(double n, std::string s)
     {
 
-        // for (unsigned int i = 0; i < v.size(); i++)
-        // {
-        //     if (v.at(i).nameOfUnit == s)
-        //     {
         num = n;
         name = s;
-        //         break;
-        //     }
-        // }
-        //throw invalid_argument("wrong input");
     }
 
     //compare function
