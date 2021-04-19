@@ -2,25 +2,11 @@
 
 #include <fstream>
 #include <sstream>
-#include <vector>
 
 namespace ariel
 {
     class NumberWithUnits
-    {
-        struct unitNode
-        {
-            std::string nameOfUnit;
-            std::string nameToComper;
-            double numToComper;
-
-            unitNode(std::string name, std::string comperName, double comperNum)
-                : nameOfUnit(name), nameToComper(comperName), numToComper(comperNum)
-            {
-            }
-        };
-
-        static std::vector<unitNode> v;
+    {       
         double num;
         std::string name;
 
