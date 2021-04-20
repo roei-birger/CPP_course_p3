@@ -613,7 +613,7 @@ TEST_CASE("Load & Read from file2 test")
 }
 
 //Basic tests
-TEST_CASE("Equal function unconnected type")
+TEST_CASE("Equal function unconnected type after second read")
 {
     CHECK_THROWS(NumberWithUnits(2, "class").operator==(NumberWithUnits(2, "EUR")));
     // CHECK_THROWS(u11.operator!=(u4));
@@ -627,7 +627,7 @@ TEST_CASE("Equal function unconnected type")
     // CHECK_THROWS(u4 -= u11);
 }
 
-TEST_CASE("Equal function")
+TEST_CASE("Equal function after second read")
 {
     CHECK_EQ(NumberWithUnits(2, "class"), NumberWithUnits(2, "class"));
     CHECK_EQ(NumberWithUnits(2, "class"), NumberWithUnits(50, "student"));
@@ -636,7 +636,7 @@ TEST_CASE("Equal function")
     CHECK_EQ(NumberWithUnits(2, "halfMin"), NumberWithUnits(60, "sec"));
 }
 
-TEST_CASE("not equal function")
+TEST_CASE("not equal function after second read")
 {
     CHECK_NE(NumberWithUnits(4, "class"), NumberWithUnits(2, "class"));
     CHECK_NE(NumberWithUnits(2, "class"), NumberWithUnits(25, "student"));
@@ -645,7 +645,7 @@ TEST_CASE("not equal function")
     CHECK_NE(NumberWithUnits(2, "halfMin"), NumberWithUnits(50, "sec"));
 }
 
-TEST_CASE("Less equal function")
+TEST_CASE("Less equal function after second read")
 {
     CHECK_LE(NumberWithUnits(1, "school"), NumberWithUnits(2, "school"));
     CHECK_LE(NumberWithUnits(1, "class"), NumberWithUnits(50, "student"));
@@ -653,7 +653,7 @@ TEST_CASE("Less equal function")
     CHECK_LE(NumberWithUnits(1, "hour"), NumberWithUnits(120, "halfMin"));
 }
 
-TEST_CASE("Less than function")
+TEST_CASE("Less than function after second read")
 {
     CHECK_LT(NumberWithUnits(1, "school"), NumberWithUnits(750, "student"));
     CHECK_LT(NumberWithUnits(1, "ILS"), NumberWithUnits(14, "EUR"));
@@ -661,7 +661,7 @@ TEST_CASE("Less than function")
     CHECK_LT(NumberWithUnits(25, "sec"), NumberWithUnits(1, "halfMin"));
 }
 
-TEST_CASE("greater equal function")
+TEST_CASE("greater equal function after second read")
 {
     CHECK_GE(NumberWithUnits(2, "school"), NumberWithUnits(1, "school"));
     CHECK_GE(NumberWithUnits(50, "student"), NumberWithUnits(1, "class"));
@@ -669,7 +669,7 @@ TEST_CASE("greater equal function")
     CHECK_GE(NumberWithUnits(1, "hour"), NumberWithUnits(120, "halfMin"));
 }
 
-TEST_CASE("greater than function")
+TEST_CASE("greater than function after second read")
 {
     CHECK_GT(NumberWithUnits(750, "student"), NumberWithUnits(1, "school"));
     CHECK_GT(NumberWithUnits(14, "EUR"), NumberWithUnits(1, "ILS"));
@@ -677,7 +677,7 @@ TEST_CASE("greater than function")
     CHECK_GT(NumberWithUnits(35, "sec"), NumberWithUnits(1, "halfMin"));
 }
 
-TEST_CASE("plus function same type")
+TEST_CASE("plus function same type after second read")
 {
     CHECK_EQ(NumberWithUnits(25, "student") + NumberWithUnits(1, "class"), NumberWithUnits(2, "class"));
     CHECK_EQ(NumberWithUnits(1, "EUR") + NumberWithUnits(1, "USD"), NumberWithUnits(7.33, "ILS"));
@@ -685,7 +685,7 @@ TEST_CASE("plus function same type")
     CHECK_EQ(NumberWithUnits(1, "halfMin") + NumberWithUnits(1, "halfMin"), NumberWithUnits(2, "halfMin"));
 }
 
-TEST_CASE("plus equal function same type")
+TEST_CASE("plus equal function same type after second read")
 {
     NumberWithUnits temp_min_p(30, "min");
     temp_min_p += NumberWithUnits(30, "halfMin");
@@ -696,7 +696,7 @@ TEST_CASE("plus equal function same type")
     CHECK_EQ(temp_USD_p, NumberWithUnits(6, "EUR"));
 }
 
-TEST_CASE("minus function same type")
+TEST_CASE("minus function same type after second read")
 {
     CHECK_EQ(NumberWithUnits(50, "student") - NumberWithUnits(1, "class"), NumberWithUnits(1, "class"));
     CHECK_EQ(NumberWithUnits(1, "EUR") - NumberWithUnits(0.5, "EUR"), NumberWithUnits(2, "ILS"));
@@ -704,7 +704,7 @@ TEST_CASE("minus function same type")
     CHECK_EQ(NumberWithUnits(1, "halfMin") - NumberWithUnits(1, "halfMin"), NumberWithUnits(0, "halfMin"));
 }
 
-TEST_CASE("minus equal function same type")
+TEST_CASE("minus equal function same type after second read")
 {
     NumberWithUnits temp_class_m(30, "class");
     temp_class_m -= NumberWithUnits(5, "class");
@@ -715,7 +715,7 @@ TEST_CASE("minus equal function same type")
     CHECK_EQ(temp_min_m, NumberWithUnits(15, "min"));
 }
 
-TEST_CASE("++/-- 'pre' & 'post' function")
+TEST_CASE("++/-- 'pre' & 'post' function after second read")
 {
     NumberWithUnits pp_pre(1, "class");
     ++pp_pre;
@@ -735,7 +735,7 @@ TEST_CASE("++/-- 'pre' & 'post' function")
     CHECK_EQ(pp_post1, NumberWithUnits(8, "halfMin"));
 }
 
-TEST_CASE("+ & - 'unary' function")
+TEST_CASE("+ & - 'unary' function after second read")
 {
     NumberWithUnits p_u(7, "student");
     CHECK_EQ((+p_u), NumberWithUnits(7, "student"));
@@ -750,7 +750,7 @@ TEST_CASE("+ & - 'unary' function")
     CHECK_EQ((-m_u1), NumberWithUnits(7, "EUR"));
 }
 
-TEST_CASE("* 'from left' & 'from right' function")
+TEST_CASE("* 'from left' & 'from right' function after second read")
 {
     NumberWithUnits mul(7, "school");
     CHECK_EQ((2 * mul), NumberWithUnits(14, "school"));
@@ -763,7 +763,7 @@ TEST_CASE("* 'from left' & 'from right' function")
     CHECK_EQ((2 * mul1 * (-2)), NumberWithUnits(-28, "halfMin"));
 }
 
-TEST_CASE("<< / >> function")
+TEST_CASE("<< / >> function after second read")
 {
     NumberWithUnits temp_output(2, "class");
     NumberWithUnits temp_output1(3, "student");
