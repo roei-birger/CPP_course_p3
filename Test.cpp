@@ -17,49 +17,18 @@ TEST_CASE("Load & Read from file test")
 
     ifstream units_MyFile{"filename.txt"};
     NumberWithUnits::read_units(units_MyFile);
-
-    for (auto elem : NumberWithUnits::u)
-    {
-
-        std::cout << elem.first;
-        std::cout << " its friends:" << endl;
-        for (auto t : NumberWithUnits::u.at(elem.first))
-        {
-
-            std::cout << t.first << ",";
-        }
-        cout << endl
-             << endl;
-    }
 }
-
-//create NumberWithUnits
-NumberWithUnits u1{500, "cm"};
-NumberWithUnits u2{1000, "cm"}; //10 meter
-NumberWithUnits u3{50, "m"};
-NumberWithUnits u4{5000, "m"}; //5 km
-NumberWithUnits u5{2, "km"};
-NumberWithUnits u6{2, "km"};
-NumberWithUnits u7{200, "g"};
-NumberWithUnits u8{1000, "g"}; //1 kg
-NumberWithUnits u9{500, "kg"};
-NumberWithUnits u10{1200, "kg"}; //1.2 ton
-NumberWithUnits u11{1.5, "ton"};
-NumberWithUnits u12{2, "ton"};
-NumberWithUnits u13{30, "sec"};
-NumberWithUnits u14{60, "sec"}; //1 min
-NumberWithUnits u15{30, "min"};
-NumberWithUnits u16{30, "min"};
-NumberWithUnits u17{0.5, "hour"};
-NumberWithUnits u18{60, "hour"};
-NumberWithUnits u19{3.33, "ILS"}; //1 dolar
-NumberWithUnits u20{1, "ILS"};
-NumberWithUnits u21{2, "USD"};
-NumberWithUnits u22{6, "USD"};
 
 //Basic tests
 TEST_CASE("Equal function")
 {
+    NumberWithUnits u5{2, "km"};
+    NumberWithUnits u6{2, "km"};
+    NumberWithUnits u9{500, "kg"};
+    NumberWithUnits u15{30, "min"};
+    NumberWithUnits u16{30, "min"};
+    NumberWithUnits u17{0.5, "hour"};
+
     CHECK_EQ(u9, u9);
     CHECK_EQ(u5, u6);
     CHECK_EQ(u6, u5);
@@ -71,6 +40,13 @@ TEST_CASE("Equal function")
 
 TEST_CASE("Equal function unconnected type")
 {
+    NumberWithUnits u1{500, "cm"};
+    NumberWithUnits u5{2, "km"};
+    NumberWithUnits u12{2, "ton"};
+    NumberWithUnits u18{60, "hour"};
+    NumberWithUnits u19{3.33, "ILS"}; //1 dolar
+    NumberWithUnits u22{6, "USD"};
+
     CHECK_THROWS(u12.operator==(u5));
     CHECK_THROWS(u5.operator==(u12));
     CHECK_THROWS(u22.operator==(u1));
@@ -79,6 +55,22 @@ TEST_CASE("Equal function unconnected type")
 
 TEST_CASE("not equal function")
 {
+    NumberWithUnits u1{500, "cm"};
+    NumberWithUnits u2{1000, "cm"}; //10 meter
+    NumberWithUnits u3{50, "m"};
+    NumberWithUnits u4{5000, "m"}; //5 km
+    NumberWithUnits u7{200, "g"};
+    NumberWithUnits u8{1000, "g"}; //1 kg
+    NumberWithUnits u9{500, "kg"};
+    NumberWithUnits u10{1200, "kg"}; //1.2 ton
+    NumberWithUnits u11{1.5, "ton"};
+    NumberWithUnits u12{2, "ton"};
+    NumberWithUnits u16{30, "min"};
+    NumberWithUnits u17{0.5, "hour"};
+    NumberWithUnits u18{60, "hour"};
+    NumberWithUnits u20{1, "ILS"};
+    NumberWithUnits u21{2, "USD"};
+
     CHECK_NE(u1, u2); //same type
     CHECK_NE(u2, u1);
     CHECK_NE(u3, u4);
@@ -92,6 +84,15 @@ TEST_CASE("not equal function")
 
 TEST_CASE("not equal function unconnected type")
 {
+    NumberWithUnits u1{500, "cm"};
+    NumberWithUnits u4{5000, "m"}; //5 km
+    NumberWithUnits u5{2, "km"};
+    NumberWithUnits u11{1.5, "ton"};
+    NumberWithUnits u12{2, "ton"};
+    NumberWithUnits u18{60, "hour"};
+    NumberWithUnits u19{3.33, "ILS"}; //1 dolar
+    NumberWithUnits u22{6, "USD"};
+
     CHECK_THROWS(u11.operator!=(u4));
     CHECK_THROWS(u4.operator!=(u11));
     CHECK_THROWS(u12.operator!=(u5));
@@ -102,6 +103,24 @@ TEST_CASE("not equal function unconnected type")
 
 TEST_CASE("Less equal function")
 {
+    NumberWithUnits u1{500, "cm"};
+    NumberWithUnits u2{1000, "cm"}; //10 meter
+    NumberWithUnits u3{50, "m"};
+    NumberWithUnits u4{5000, "m"}; //5 km
+    NumberWithUnits u5{2, "km"};
+    NumberWithUnits u6{2, "km"};
+    NumberWithUnits u7{200, "g"};
+    NumberWithUnits u8{1000, "g"}; //1 kg
+    NumberWithUnits u9{500, "kg"};
+    NumberWithUnits u10{1200, "kg"}; //1.2 ton
+    NumberWithUnits u11{1.5, "ton"};
+    NumberWithUnits u12{2, "ton"};
+    NumberWithUnits u13{30, "sec"};
+    NumberWithUnits u14{60, "sec"}; //1 min
+    NumberWithUnits u16{30, "min"};
+    NumberWithUnits u17{0.5, "hour"};
+    NumberWithUnits u18{60, "hour"};
+
     CHECK_LE(u1, u1); //same type
     CHECK_LE(u5, u6);
     CHECK_LE(u6, u5);
@@ -119,6 +138,15 @@ TEST_CASE("Less equal function")
 
 TEST_CASE("Less equal function unconnected type")
 {
+    NumberWithUnits u1{500, "cm"};
+    NumberWithUnits u4{5000, "m"}; //5 km
+    NumberWithUnits u5{2, "km"};
+    NumberWithUnits u11{1.5, "ton"};
+    NumberWithUnits u12{2, "ton"};
+    NumberWithUnits u18{60, "hour"};
+    NumberWithUnits u19{3.33, "ILS"}; //1 dolar
+    NumberWithUnits u22{6, "USD"};
+
     CHECK_THROWS(u11.operator<=(u4));
     CHECK_THROWS(u4.operator<=(u11));
     CHECK_THROWS(u12.operator<=(u5));
@@ -129,6 +157,22 @@ TEST_CASE("Less equal function unconnected type")
 
 TEST_CASE("Less than function")
 {
+    NumberWithUnits u1{500, "cm"};
+    NumberWithUnits u2{1000, "cm"}; //10 meter
+    NumberWithUnits u3{50, "m"};
+    NumberWithUnits u4{5000, "m"}; //5 km
+    NumberWithUnits u7{200, "g"};
+    NumberWithUnits u8{1000, "g"}; //1 kg
+    NumberWithUnits u9{500, "kg"};
+    NumberWithUnits u10{1200, "kg"}; //1.2 ton
+    NumberWithUnits u11{1.5, "ton"};
+    NumberWithUnits u12{2, "ton"};
+    NumberWithUnits u13{30, "sec"};
+    NumberWithUnits u14{60, "sec"}; //1 min
+    NumberWithUnits u16{30, "min"};
+    NumberWithUnits u17{0.5, "hour"};
+    NumberWithUnits u18{60, "hour"};
+
     CHECK_LT(u1, u2); //same type
     CHECK_LT(u3, u4);
     CHECK_LT(u7, u8);
@@ -142,6 +186,15 @@ TEST_CASE("Less than function")
 
 TEST_CASE("Less than function unconnected type")
 {
+    NumberWithUnits u1{500, "cm"};
+    NumberWithUnits u4{5000, "m"}; //5 km
+    NumberWithUnits u5{2, "km"};
+    NumberWithUnits u11{1.5, "ton"};
+    NumberWithUnits u12{2, "ton"};
+    NumberWithUnits u18{60, "hour"};
+    NumberWithUnits u19{3.33, "ILS"}; //1 dolar
+    NumberWithUnits u22{6, "USD"};
+
     CHECK_THROWS(u11.operator<(u4));
     CHECK_THROWS(u4.operator<(u11));
     CHECK_THROWS(u12.operator<(u5));
@@ -152,6 +205,23 @@ TEST_CASE("Less than function unconnected type")
 
 TEST_CASE("greater equal function")
 {
+    NumberWithUnits u1{500, "cm"};
+    NumberWithUnits u2{1000, "cm"}; //10 meter
+    NumberWithUnits u3{50, "m"};
+    NumberWithUnits u4{5000, "m"}; //5 km
+    NumberWithUnits u5{2, "km"};
+    NumberWithUnits u6{2, "km"};
+    NumberWithUnits u7{200, "g"};
+    NumberWithUnits u8{1000, "g"}; //1 kg
+    NumberWithUnits u9{500, "kg"};
+    NumberWithUnits u10{1200, "kg"}; //1.2 ton
+    NumberWithUnits u11{1.5, "ton"};
+    NumberWithUnits u12{2, "ton"};
+    NumberWithUnits u13{30, "sec"};
+    NumberWithUnits u14{60, "sec"}; //1 min
+    NumberWithUnits u16{30, "min"};
+    NumberWithUnits u17{0.5, "hour"};
+    NumberWithUnits u18{60, "hour"};
 
     CHECK_GE(u9, u9); //same type
     CHECK_GE(u1, u1);
@@ -170,6 +240,15 @@ TEST_CASE("greater equal function")
 
 TEST_CASE("greater  equal function unconnected type")
 {
+    NumberWithUnits u1{500, "cm"};
+    NumberWithUnits u4{5000, "m"}; //5 km
+    NumberWithUnits u5{2, "km"};
+    NumberWithUnits u11{1.5, "ton"};
+    NumberWithUnits u12{2, "ton"};
+    NumberWithUnits u18{60, "hour"};
+    NumberWithUnits u19{3.33, "ILS"}; //1 dolar
+    NumberWithUnits u22{6, "USD"};
+
     CHECK_THROWS(u11.operator>=(u4));
     CHECK_THROWS(u4.operator>=(u11));
     CHECK_THROWS(u12.operator>=(u5));
@@ -180,6 +259,22 @@ TEST_CASE("greater  equal function unconnected type")
 
 TEST_CASE("greater than function")
 {
+    NumberWithUnits u1{500, "cm"};
+    NumberWithUnits u2{1000, "cm"}; //10 meter
+    NumberWithUnits u3{50, "m"};
+    NumberWithUnits u4{5000, "m"}; //5 km
+    NumberWithUnits u7{200, "g"};
+    NumberWithUnits u8{1000, "g"}; //1 kg
+    NumberWithUnits u9{500, "kg"};
+    NumberWithUnits u10{1200, "kg"}; //1.2 ton
+    NumberWithUnits u11{1.5, "ton"};
+    NumberWithUnits u12{2, "ton"};
+    NumberWithUnits u13{30, "sec"};
+    NumberWithUnits u14{60, "sec"}; //1 min
+    NumberWithUnits u16{30, "min"};
+    NumberWithUnits u17{0.5, "hour"};
+    NumberWithUnits u18{60, "hour"};
+
     CHECK_GT(u2, u1); //same type
     CHECK_GT(u4, u3);
     CHECK_GT(u8, u7);
@@ -193,6 +288,15 @@ TEST_CASE("greater than function")
 
 TEST_CASE("greater than function unconnected type")
 {
+    NumberWithUnits u1{500, "cm"};
+    NumberWithUnits u4{5000, "m"}; //5 km
+    NumberWithUnits u5{2, "km"};
+    NumberWithUnits u11{1.5, "ton"};
+    NumberWithUnits u12{2, "ton"};
+    NumberWithUnits u18{60, "hour"};
+    NumberWithUnits u19{3.33, "ILS"}; //1 dolar
+    NumberWithUnits u22{6, "USD"};
+
     CHECK_THROWS(u11.operator>(u4));
     CHECK_THROWS(u4.operator>(u11));
     CHECK_THROWS(u12.operator>(u5));
@@ -203,6 +307,18 @@ TEST_CASE("greater than function unconnected type")
 
 TEST_CASE("plus function same type")
 {
+    //create NumberWithUnits
+    NumberWithUnits u1{500, "cm"};
+    NumberWithUnits u2{1000, "cm"}; //10 meter
+    NumberWithUnits u5{2, "km"};
+    NumberWithUnits u6{2, "km"};
+    NumberWithUnits u13{30, "sec"};
+    NumberWithUnits u14{60, "sec"}; //1 min
+    NumberWithUnits u15{30, "min"};
+    NumberWithUnits u16{30, "min"};
+    NumberWithUnits u17{0.5, "hour"};
+    NumberWithUnits u18{60, "hour"};
+
     CHECK_EQ(u1 + u1, u2);
     CHECK_EQ(u5 + u6, NumberWithUnits(4, "km"));
     CHECK_EQ(u6 + u5, NumberWithUnits(4, "km"));
@@ -214,6 +330,14 @@ TEST_CASE("plus function same type")
 
 TEST_CASE("plus function connect type")
 {
+    //create NumberWithUnits
+    NumberWithUnits u1{500, "cm"};
+    NumberWithUnits u2{1000, "cm"}; //10 meter
+    NumberWithUnits u15{30, "min"};
+    NumberWithUnits u16{30, "min"};
+    NumberWithUnits u19{3.33, "ILS"}; //1 dolar
+    NumberWithUnits u21{2, "USD"};
+
     CHECK_EQ(u1 + u1, u2);
     CHECK_EQ(u15 + u16, NumberWithUnits(1, "hour"));
     CHECK_EQ(u16 + u15, NumberWithUnits(1, "hour"));
@@ -223,6 +347,9 @@ TEST_CASE("plus function connect type")
 
 TEST_CASE("plus function unconnected type")
 {
+    NumberWithUnits u4{5000, "m"}; //5 km
+    NumberWithUnits u11{1.5, "ton"};
+
     CHECK_THROWS(u11 + u4); //diff type
     CHECK_THROWS(u4 + u11);
 }
@@ -259,12 +386,28 @@ TEST_CASE("plus equal function connect type")
 
 TEST_CASE("plus equal function unconnected type")
 {
+
+    NumberWithUnits u4{5000, "m"}; //5 km
+    NumberWithUnits u11{1.5, "ton"};
+
     CHECK_THROWS(u11 += u4); //unconnected type
     CHECK_THROWS(u4 += u11);
 }
 
 TEST_CASE("minus function same type")
 {
+    //create NumberWithUnits
+    NumberWithUnits u1{500, "cm"};
+    NumberWithUnits u2{1000, "cm"}; //10 meter
+    NumberWithUnits u5{2, "km"};
+    NumberWithUnits u6{2, "km"};
+    NumberWithUnits u13{30, "sec"};
+    NumberWithUnits u14{60, "sec"}; //1 min
+    NumberWithUnits u15{30, "min"};
+    NumberWithUnits u16{30, "min"};
+    NumberWithUnits u17{0.5, "hour"};
+    NumberWithUnits u18{60, "hour"};
+
     CHECK_EQ(u1 - u2, NumberWithUnits(-500, "cm"));
     CHECK_EQ(u15 - u16, NumberWithUnits(0, "min"));
     CHECK_EQ(u16 - u15, NumberWithUnits(0, "min"));
@@ -278,6 +421,14 @@ TEST_CASE("minus function same type")
 
 TEST_CASE("minus function connect type")
 {
+    //create NumberWithUnits
+    NumberWithUnits u1{500, "cm"};
+    NumberWithUnits u2{1000, "cm"}; //10 meter
+    NumberWithUnits u15{30, "min"};
+    NumberWithUnits u16{30, "min"};
+    NumberWithUnits u19{3.33, "ILS"}; //1 dolar
+    NumberWithUnits u21{2, "USD"};
+
     CHECK_EQ(u15 - u16, NumberWithUnits(0, "hour"));
     CHECK_EQ(u16 - u15, NumberWithUnits(0, "hour"));
     CHECK_EQ(u21 - u19, NumberWithUnits(1, "USD"));
@@ -287,6 +438,9 @@ TEST_CASE("minus function connect type")
 
 TEST_CASE("minus function unconnected type")
 {
+    NumberWithUnits u4{5000, "m"}; //5 km
+    NumberWithUnits u11{1.5, "ton"};
+
     CHECK_THROWS(u11 - u4); //unconnected type
     CHECK_THROWS(u4 - u11);
 }
@@ -323,6 +477,9 @@ TEST_CASE("minus equal function connect type")
 
 TEST_CASE("minus equal function unconnected type")
 {
+    NumberWithUnits u4{5000, "m"}; //5 km
+    NumberWithUnits u11{1.5, "ton"};
+
     CHECK_THROWS(u11 -= u4); //unconnected type
     CHECK_THROWS(u4 -= u11);
 }
