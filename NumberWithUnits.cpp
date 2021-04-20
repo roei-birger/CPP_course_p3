@@ -319,13 +319,16 @@ namespace ariel
         double insertValue;
         string insertName;
 
-        char openSign, closeSign;
+        char openSign,closeSign;
 
-        is >> skipws >> insertValue >> openSign >> insertName >> closeSign;
-        if (closeSign != ']')
+        is >> skipws >> insertValue >> openSign >> insertName;
+        if (insertName.at(insertName.length()-1) == ']')
         {
             insertName = insertName.substr(0, insertName.length() - 1);
+        }else{
+            is >> skipws >> closeSign;
         }
+
 
         if (!NumberWithUnits::u.count(insertName))
         {
