@@ -21,7 +21,7 @@ namespace ariel
                 double a, num;
                 istringstream iss(myText);
                 iss >> skipws >> a >> dadName >> equalOperator >> num >> sunName;
-                //cout << dadName << " is " << num << sunName << endl;
+
                 if (!u.count(dadName))
                 {
                     u.insert({dadName, map<string, double>{}});
@@ -61,20 +61,15 @@ namespace ariel
 
     NumberWithUnits::NumberWithUnits(const double n, const string s) : num(n), name(s)
     {
-
-        // cout << s <<" - " <<(u.count(s))<<endl;
-        
-
-        // if (!u.count(s))
-        // {
-        //     cout << s << endl;
-        //     throw runtime_error("Unknown _unit");
-        // }
-        // else
-        // {
-        //     num = n;
-        //     name = s;
-        // }
+        if (!u.count(s))
+        {
+            throw runtime_error("Unknown _unit");
+        }
+        else
+        {
+            num = n;
+            name = s;
+        }
     }
 
     //compare function
@@ -90,7 +85,7 @@ namespace ariel
         }
         else if (!isConnect(name, n.name))
         {
-            throw invalid_argument("not connect units");
+            throw invalid_argument("Units do not match - [" + n.name + "] cannot be converted to [" + name + "]");
         }
         else
         {
@@ -111,7 +106,7 @@ namespace ariel
         }
         else if (!isConnect(name, n.name))
         {
-            throw invalid_argument("not connect units");
+            throw invalid_argument("Units do not match - [" + n.name + "] cannot be converted to [" + name + "]");
         }
         else
         {
@@ -132,7 +127,7 @@ namespace ariel
         }
         else if (!isConnect(name, n.name))
         {
-            throw invalid_argument("not connect units");
+            throw invalid_argument("Units do not match - [" + n.name + "] cannot be converted to [" + name + "]");
         }
         else
         {
@@ -153,7 +148,7 @@ namespace ariel
         }
         else if (!isConnect(name, n.name))
         {
-            throw invalid_argument("not connect units");
+            throw invalid_argument("Units do not match - [" + n.name + "] cannot be converted to [" + name + "]");
         }
         else
         {
@@ -174,7 +169,7 @@ namespace ariel
         }
         else if (!isConnect(name, n.name))
         {
-            throw invalid_argument("not connect units");
+            throw invalid_argument("Units do not match - [" + n.name + "] cannot be converted to [" + name + "]");
         }
         else
         {
@@ -195,7 +190,7 @@ namespace ariel
         }
         else if (!isConnect(name, n.name))
         {
-            throw invalid_argument("not connect units");
+            throw invalid_argument("Units do not match - [" + n.name + "] cannot be converted to [" + name + "]");
         }
         else
         {
@@ -215,7 +210,7 @@ namespace ariel
         }
         else if (!isConnect(name, n.name))
         {
-            throw invalid_argument("not connect units");
+            throw invalid_argument("Units do not match - [" + n.name + "] cannot be converted to [" + name + "]");
         }
         else
         {
@@ -233,7 +228,7 @@ namespace ariel
         }
         else if (!isConnect(name, n.name))
         {
-            throw invalid_argument("not connect units");
+            throw invalid_argument("Units do not match - [" + n.name + "] cannot be converted to [" + name + "]");
         }
         else
         {
@@ -279,7 +274,7 @@ namespace ariel
         }
         else if (!isConnect(n1.name, n2.name))
         {
-            throw invalid_argument("not connect units");
+            throw invalid_argument("Units do not match - [" + n2.name + "] cannot be converted to [" + n1.name + "]");
         }
         else
         {
@@ -299,7 +294,7 @@ namespace ariel
         }
         else if (!isConnect(n1.name, n2.name))
         {
-            throw invalid_argument("not connect units");
+            throw invalid_argument("Units do not match - [" + n2.name + "] cannot be converted to [" + n1.name + "]");
         }
         else
         {
