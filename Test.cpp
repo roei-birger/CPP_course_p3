@@ -545,6 +545,10 @@ TEST_CASE("<< function")
     ostringstream oss1;
     oss1 << temp_output1;
     CHECK_EQ(oss1.str(), "-9[km]");
+
+    ostringstream oss2;
+    oss2 << temp_output << "  " << temp_output1;
+    CHECK_EQ(oss2.str(), "7[ILS]  -9[km]");
 }
 
 TEST_CASE(">> function")
@@ -555,25 +559,22 @@ TEST_CASE(">> function")
     iss >> temp_input;
     CHECK_EQ(temp_input, NumberWithUnits(20, "sec"));
 
-    istringstream iss1(" 5 [USD]");
+    istringstream iss1("6[ g ]");
     iss1 >> temp_input;
-    CHECK_EQ(temp_input, NumberWithUnits(5, "USD"));
-
-    istringstream iss2("6[ g ]");
-    iss2 >> temp_input;
     CHECK_EQ(temp_input, NumberWithUnits(6, "g"));
 
-    istringstream iss3(" 900 [ton] ");
-    iss3 >> temp_input;
+    istringstream iss2(" 900 [ton] ");
+    iss2 >> temp_input;
     CHECK_EQ(temp_input, NumberWithUnits(900, "ton"));
 
-    istringstream iss4(" -16 [m] ");
-    iss4 >> temp_input;
-    CHECK_EQ(temp_input, NumberWithUnits(-16, "m"));
-
-    istringstream iss5(" -7 [hour ] ");
-    iss5 >> temp_input;
-    CHECK_EQ(temp_input, NumberWithUnits(-7, "hour"));
+    NumberWithUnits a(7, "ILS");
+    NumberWithUnits b(7, "ILS");
+    NumberWithUnits c(7, "ILS");
+    istringstream iss3{" -16 [m]   -7 [hour ]  8.8 [min ]"};
+    iss3 >> a >> b >> c;
+    CHECK_EQ(a, NumberWithUnits(-16, "m"));
+    CHECK_EQ(b, NumberWithUnits(-7, "hour"));
+    CHECK_EQ(c, NumberWithUnits(8.8, "min"));
 }
 
 TEST_CASE("insert illigel char")
@@ -607,30 +608,14 @@ TEST_CASE("Load & Read from file2 test")
     MyFile2 << "1 school = 25 class\n1 class = 25 student\n1 EUR = 4 ILS\n1 halfMin = 0.5 min";
     MyFile2.close();
 
-    ifstream units_MyFile2{"filename.txt"};
+    ifstream units_MyFile2{"filename2.txt"};
     NumberWithUnits::read_units(units_MyFile2);
 }
 
 //Basic tests
-TEST_CASE("Equal function")
-{
-    CHECK_EQ(NumberWithUnits(2, "class"), NumberWithUnits(2, "class"));
-    CHECK_EQ(NumberWithUnits(2, "class"), NumberWithUnits(50, "student"));
-    CHECK_EQ(NumberWithUnits(0.8325, "EUR"), NumberWithUnits(1, "USD"));
-    CHECK_EQ(NumberWithUnits(1, "min"), NumberWithUnits(2, "halfMin"));
-    CHECK_EQ(NumberWithUnits(2, "halfMin"), NumberWithUnits(60, "sec"));
-}
-
 TEST_CASE("Equal function unconnected type")
 {
-    // NumberWithUnits u1{500, "cm"};
-    // NumberWithUnits u5{2, "km"};
-    // NumberWithUnits u12{2, "ton"};
-    // NumberWithUnits u18{60, "hour"};
-    // NumberWithUnits u19{3.33, "ILS"}; //1 dolar
-    // NumberWithUnits u22{6, "USD"};
-
-    // CHECK_THROWS(u12.operator==(u5));
+    CHECK_THROWS(NumberWithUnits(2, "class").operator==(NumberWithUnits(2, "EUR")));
     // CHECK_THROWS(u11.operator!=(u4));
     // CHECK_THROWS(u4.operator<=(u11));
     // CHECK_THROWS(u11.operator<(u4));
@@ -639,7 +624,16 @@ TEST_CASE("Equal function unconnected type")
     // CHECK_THROWS(u4 + u11);
     // CHECK_THROWS(u4 += u11);
     // CHECK_THROWS(u4 - u11);
-    //CHECK_THROWS(u4 -= u11);
+    // CHECK_THROWS(u4 -= u11);
+}
+
+TEST_CASE("Equal function")
+{
+    CHECK_EQ(NumberWithUnits(2, "class"), NumberWithUnits(2, "class"));
+    CHECK_EQ(NumberWithUnits(2, "class"), NumberWithUnits(50, "student"));
+    CHECK_EQ(NumberWithUnits(0.8325, "EUR"), NumberWithUnits(1, "USD"));
+    CHECK_EQ(NumberWithUnits(1, "min"), NumberWithUnits(2, "halfMin"));
+    CHECK_EQ(NumberWithUnits(2, "halfMin"), NumberWithUnits(60, "sec"));
 }
 
 TEST_CASE("not equal function")
@@ -721,108 +715,68 @@ TEST_CASE("minus equal function same type")
     CHECK_EQ(temp_min_m, NumberWithUnits(15, "min"));
 }
 
-
-
 TEST_CASE("++/-- 'pre' & 'post' function")
 {
-    // NumberWithUnits pp_pre(1, "km");
-    // ++pp_pre;
-    // CHECK_EQ(pp_pre, NumberWithUnits(2, "km"));
-    // CHECK_EQ((++pp_pre), NumberWithUnits(3, "km"));
-    // CHECK_EQ((++++++pp_pre), NumberWithUnits(6, "km"));
-    // CHECK_EQ((++--pp_pre), NumberWithUnits(6, "km"));
+    NumberWithUnits pp_pre(1, "class");
+    ++pp_pre;
+    CHECK_EQ(pp_pre, NumberWithUnits(2, "class"));
 
-    // NumberWithUnits pp_post(1, "USD");
-    // pp_post++;
-    // CHECK_EQ(pp_post, NumberWithUnits(2, "USD"));
-    // CHECK_EQ((pp_post++), NumberWithUnits(2, "USD"));
-    // CHECK_EQ(pp_post, NumberWithUnits(3, "USD"));
+    NumberWithUnits pp_post(1, "EUR");
+    pp_post++;
+    CHECK_EQ(pp_post, NumberWithUnits(2, "EUR"));
+    CHECK_EQ((pp_post++), NumberWithUnits(2, "EUR"));
 
-    // NumberWithUnits pp_pre(5, "ton");
-    // --pp_pre;
-    // CHECK_EQ(pp_pre, NumberWithUnits(4, "ton"));
-    // CHECK_EQ((--pp_pre), NumberWithUnits(3, "ton"));
-    // CHECK_EQ((--++pp_pre), NumberWithUnits(3, "ton"));
+    NumberWithUnits pp_pre1(5, "halfMin");
+    --pp_pre1;
+    CHECK_EQ(pp_pre1, NumberWithUnits(4, "halfMin"));
 
-    // NumberWithUnits pp_post(9, "sec");
-    // pp_post--;
-    // CHECK_EQ(pp_post, NumberWithUnits(8, "sec"));
-    // CHECK_EQ((pp_post--), NumberWithUnits(8, "sec"));
-    // CHECK_EQ(pp_post, NumberWithUnits(7, "sec"));
+    NumberWithUnits pp_post1(9, "halfMin");
+    pp_post1--;
+    CHECK_EQ(pp_post1, NumberWithUnits(8, "halfMin"));
 }
-
 
 TEST_CASE("+ & - 'unary' function")
 {
-    // NumberWithUnits p_u(7, "ILS");
-    // CHECK_EQ((+p_u), NumberWithUnits(7, "ILS"));
+    NumberWithUnits p_u(7, "student");
+    CHECK_EQ((+p_u), NumberWithUnits(7, "student"));
 
-    // NumberWithUnits p_u1(-7, "ILS");
-    // CHECK_EQ((+p_u1), NumberWithUnits(-7, "ILS"));
+    NumberWithUnits p_u1(-7, "EUR");
+    CHECK_EQ((+p_u1), NumberWithUnits(-7, "EUR"));
 
-    // NumberWithUnits p_u(7, "ILS");
-    // CHECK_EQ((-p_u), NumberWithUnits(-7, "ILS"));
+    NumberWithUnits m_u(7, "halfMin");
+    CHECK_EQ((-m_u), NumberWithUnits(-7, "halfMin"));
 
-    // NumberWithUnits p_u1(-7, "ILS");
-    // CHECK_EQ((-p_u1), NumberWithUnits(7, "ILS"));
+    NumberWithUnits m_u1(-7, "EUR");
+    CHECK_EQ((-m_u1), NumberWithUnits(7, "EUR"));
 }
 
 TEST_CASE("* 'from left' & 'from right' function")
 {
-    // NumberWithUnits mul(7, "ILS");
-    // CHECK_EQ((2 * mul), NumberWithUnits(14, "ILS"));
+    NumberWithUnits mul(7, "school");
+    CHECK_EQ((2 * mul), NumberWithUnits(14, "school"));
+    CHECK_EQ((mul * 2), NumberWithUnits(14, "school"));
+    CHECK_EQ((2 * mul * (-2)), NumberWithUnits(-28, "school"));
 
-    // NumberWithUnits mul1(-7, "g");
-    // CHECK_EQ((2 * mul1), NumberWithUnits(-14, "g"));
-    // CHECK_EQ((2 * mul1 * 2), NumberWithUnits(-28, "g"));
-
-    // NumberWithUnits mul3(7, "ILS");
-    // CHECK_EQ((mul3 * 2), NumberWithUnits(14, "ILS"));
-
-    // NumberWithUnits mul4(-7, "g");
-    // CHECK_EQ((mul4 * 2), NumberWithUnits(-14, "g"));
-    // CHECK_EQ((2 * mul4 * 2), NumberWithUnits(-28, "g"));
+    NumberWithUnits mul1(7, "halfMin");
+    CHECK_EQ((2 * mul1), NumberWithUnits(14, "halfMin"));
+    CHECK_EQ((mul1 * 2), NumberWithUnits(14, "halfMin"));
+    CHECK_EQ((2 * mul1 * (-2)), NumberWithUnits(-28, "halfMin"));
 }
 
-TEST_CASE("<< function")
+TEST_CASE("<< / >> function")
 {
-    // NumberWithUnits temp_output(7, "ILS");
-    // ostringstream oss;
-    // oss << temp_output;
-    // CHECK_EQ(oss.str(), "7[ILS]");
+    NumberWithUnits temp_output(2, "class");
+    NumberWithUnits temp_output1(3, "student");
+    ostringstream oss;
+    oss << temp_output << " " << temp_output1;
+    CHECK_EQ(oss.str(), "2[class] 3[student]");
 
-    // NumberWithUnits temp_output1(-9, "km");
-    // ostringstream oss1;
-    // oss1 << temp_output1;
-    // CHECK_EQ(oss1.str(), "-9[km]");
-}
-
-
-TEST_CASE(">> function")
-{
-    // NumberWithUnits temp_input(7, "ILS");
-
-    // istringstream iss("20 [sec]");
-    // iss >> temp_input;
-    // CHECK_EQ(temp_input, NumberWithUnits(20, "sec"));
-
-    // istringstream iss1(" 5 [USD]");
-    // iss1 >> temp_input;
-    // CHECK_EQ(temp_input, NumberWithUnits(5, "USD"));
-
-    // istringstream iss2("6[ g ]");
-    // iss2 >> temp_input;
-    // CHECK_EQ(temp_input, NumberWithUnits(6, "g"));
-
-    // istringstream iss3(" 900 [ton] ");
-    // iss3 >> temp_input;
-    // CHECK_EQ(temp_input, NumberWithUnits(900, "ton"));
-
-    // istringstream iss4(" -16 [m] ");
-    // iss4 >> temp_input;
-    // CHECK_EQ(temp_input, NumberWithUnits(-16, "m"));
-
-    // istringstream iss5(" -7 [hour ] ");
-    // iss5 >> temp_input;
-    // CHECK_EQ(temp_input, NumberWithUnits(-7, "hour"));
+    NumberWithUnits a(7, "ILS");
+    NumberWithUnits b(7, "ILS");
+    NumberWithUnits c(7, "ILS");
+    istringstream iss{" 8 [   EUR     ]   -1 [school ] 29.7 [halfMin ]"};
+    iss >> a >> b >> c;
+    CHECK_EQ(a, NumberWithUnits(8, "EUR"));
+    CHECK_EQ(b, NumberWithUnits(-1, "school"));
+    CHECK_EQ(c, NumberWithUnits(29.7, "halfMin"));
 }
