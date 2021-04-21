@@ -2,6 +2,7 @@
 #include "doctest.h"
 #include <iostream>
 #include <sstream>
+#include <fstream>
 
 using namespace ariel;
 using namespace std;
