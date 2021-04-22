@@ -3,12 +3,13 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-
+#define EPS 0.001
 using namespace std;
 
 namespace ariel
 {
     map<string, map<string, double>> NumberWithUnits::u;
+
 
     void NumberWithUnits::read_units(ifstream &file)
     {
@@ -54,22 +55,18 @@ namespace ariel
         }
     }
 
-    bool isConnect(const string one, const string two)
+    bool isConnect(const string &one, const string &two)
     {
-        return NumberWithUnits::u.at(one).count(two);
+        return NumberWithUnits::u.at(one).count(two) == 1;
     }
 
     NumberWithUnits::NumberWithUnits(const double n, const string s) : num(n), name(s)
     {
-        if (!u.count(s))
+        if (u.count(s) == 0)
         {
             throw runtime_error("Unknown _unit");
         }
-        else
-        {
-            num = n;
-            name = s;
-        }
+        
     }
 
     //compare function
@@ -77,126 +74,88 @@ namespace ariel
     {
         if (name == n.name)
         {
-            if (num != n.num)
-            {
-                return false;
-            }
-            return true;
+            return (abs(num - n.num) < EPS);
         }
-        else if (!isConnect(name, n.name))
+         if (isConnect(name, n.name))
         {
-            throw invalid_argument("Units do not match - [" + n.name + "] cannot be converted to [" + name + "]");
+            double tempAmount = u.at(n.name).at(name);
+            return (abs(num - (tempAmount * n.num)) < EPS);
         }
-        else
-        {
-            double tempAmount = NumberWithUnits::u.at(name).at(n.name);
-            return (tempAmount * num == n.num);
-        }
+        throw invalid_argument("Units do not match - [" + n.name + "] cannot be converted to [" + name + "]");
     }
 
     bool NumberWithUnits::operator!=(const NumberWithUnits &n) const
     {
         if (name == n.name)
         {
-            if (num != n.num)
-            {
-                return true;
-            }
-            return false;
+
+            return num != n.num;
         }
-        else if (!isConnect(name, n.name))
+        if (isConnect(name, n.name))
         {
-            throw invalid_argument("Units do not match - [" + n.name + "] cannot be converted to [" + name + "]");
+            double tempAmount = u.at(n.name).at(name);
+            return !(abs(num - (tempAmount * n.num)) < EPS);
         }
-        else
-        {
-            double tempAmount = NumberWithUnits::u.at(name).at(n.name);
-            return !(tempAmount * num == n.num);
-        }
+        throw invalid_argument("Units do not match - [" + n.name + "] cannot be converted to [" + name + "]");
     }
 
     bool NumberWithUnits::operator<=(const NumberWithUnits &n) const
     {
         if (name == n.name)
         {
-            if (num <= n.num)
-            {
-                return true;
-            }
-            return false;
+            return num <= n.num;
         }
-        else if (!isConnect(name, n.name))
-        {
-            throw invalid_argument("Units do not match - [" + n.name + "] cannot be converted to [" + name + "]");
-        }
-        else
+        if (isConnect(name, n.name))
         {
             double tempAmount = NumberWithUnits::u.at(name).at(n.name);
             return (tempAmount * num <= n.num);
         }
+        throw invalid_argument("Units do not match - [" + n.name + "] cannot be converted to [" + name + "]");
     }
 
     bool NumberWithUnits::operator<(const NumberWithUnits &n) const
     {
         if (name == n.name)
         {
-            if (num < n.num)
-            {
-                return true;
-            }
-            return false;
+        
+            return num < n.num;
         }
-        else if (!isConnect(name, n.name))
-        {
-            throw invalid_argument("Units do not match - [" + n.name + "] cannot be converted to [" + name + "]");
-        }
-        else
+        if (isConnect(name, n.name))
         {
             double tempAmount = NumberWithUnits::u.at(name).at(n.name);
             return (tempAmount * num < n.num);
         }
+        throw invalid_argument("Units do not match - [" + n.name + "] cannot be converted to [" + name + "]");
     }
 
     bool NumberWithUnits::operator>(const NumberWithUnits &n) const
     {
         if (name == n.name)
         {
-            if (num > n.num)
-            {
-                return true;
-            }
-            return false;
+            
+            return num > n.num;
         }
-        else if (!isConnect(name, n.name))
-        {
-            throw invalid_argument("Units do not match - [" + n.name + "] cannot be converted to [" + name + "]");
-        }
-        else
+        if (isConnect(name, n.name))
         {
             double tempAmount = NumberWithUnits::u.at(name).at(n.name);
             return (tempAmount * num > n.num);
         }
+        throw invalid_argument("Units do not match - [" + n.name + "] cannot be converted to [" + name + "]");
     }
 
     bool NumberWithUnits::operator>=(const NumberWithUnits &n) const
     {
         if (name == n.name)
         {
-            if (num >= n.num)
-            {
-                return true;
-            }
-            return false;
+            
+            return num >= n.num;
         }
-        else if (!isConnect(name, n.name))
-        {
-            throw invalid_argument("Units do not match - [" + n.name + "] cannot be converted to [" + name + "]");
-        }
-        else
+        if (isConnect(name, n.name))
         {
             double tempAmount = NumberWithUnits::u.at(name).at(n.name);
             return (tempAmount * num >= n.num);
         }
+        throw invalid_argument("Units do not match - [" + n.name + "] cannot be converted to [" + name + "]");
     }
 
     //plus, minus function
@@ -208,17 +167,15 @@ namespace ariel
             num += n.num;
             return *this;
         }
-        else if (!isConnect(name, n.name))
-        {
-            throw invalid_argument("Units do not match - [" + n.name + "] cannot be converted to [" + name + "]");
-        }
-        else
+        if (isConnect(name, n.name))
         {
             double tempAmount = NumberWithUnits::u.at(n.name).at(name);
             num += (n.num * tempAmount);
             return *this;
         }
+        throw invalid_argument("Units do not match - [" + n.name + "] cannot be converted to [" + name + "]");
     }
+
     NumberWithUnits &NumberWithUnits::operator-=(const NumberWithUnits &n)
     {
         if (name == n.name)
@@ -226,16 +183,13 @@ namespace ariel
             num -= n.num;
             return *this;
         }
-        else if (!isConnect(name, n.name))
-        {
-            throw invalid_argument("Units do not match - [" + n.name + "] cannot be converted to [" + name + "]");
-        }
-        else
+        if (isConnect(name, n.name))
         {
             double tempAmount = NumberWithUnits::u.at(n.name).at(name);
             num -= (n.num * tempAmount);
             return *this;
         }
+        throw invalid_argument("Units do not match - [" + n.name + "] cannot be converted to [" + name + "]");
     }
 
     NumberWithUnits &NumberWithUnits::operator++() // prefix  - ++a
@@ -265,43 +219,39 @@ namespace ariel
     //plus, minus function
     NumberWithUnits operator+(const NumberWithUnits &n1, const NumberWithUnits &n2)
     {
-        double tempNum;
+        double tempNum = 0;
 
         if (n1.name == n2.name)
         {
             tempNum = n1.num + n2.num;
             return NumberWithUnits(tempNum, n1.name);
         }
-        else if (!isConnect(n1.name, n2.name))
-        {
-            throw invalid_argument("Units do not match - [" + n2.name + "] cannot be converted to [" + n1.name + "]");
-        }
-        else
+        if (isConnect(n1.name, n2.name))
         {
             double tempAmount = NumberWithUnits::u.at(n2.name).at(n1.name);
             tempNum = n1.num + (n2.num * tempAmount);
             return NumberWithUnits(tempNum, n1.name);
         }
+        throw invalid_argument("Units do not match - [" + n2.name + "] cannot be converted to [" + n1.name + "]");
     }
+
     NumberWithUnits operator-(const NumberWithUnits &n1, const NumberWithUnits &n2)
     {
-        double tempNum;
+        double tempNum = 0;
 
         if (n1.name == n2.name)
         {
             tempNum = n1.num - n2.num;
             return NumberWithUnits(tempNum, n1.name);
         }
-        else if (!isConnect(n1.name, n2.name))
-        {
-            throw invalid_argument("Units do not match - [" + n2.name + "] cannot be converted to [" + n1.name + "]");
-        }
-        else
+        if (isConnect(n1.name, n2.name))
         {
             double tempAmount = NumberWithUnits::u.at(n2.name).at(n1.name);
             tempNum = n1.num - (n2.num * tempAmount);
             return NumberWithUnits(tempNum, n1.name);
         }
+
+        throw invalid_argument("Units do not match - [" + n2.name + "] cannot be converted to [" + n1.name + "]");
     }
 
     //unary function
@@ -316,21 +266,22 @@ namespace ariel
     std::ostream &operator<<(std::ostream &os, const NumberWithUnits &n) { return os << n.num << "[" << n.name << "]"; }
     std::istream &operator>>(std::istream &is, NumberWithUnits &n)
     {
-        double insertValue;
+        double insertValue = 0;
         string insertName;
 
-        char openSign,closeSign;
+        char openSign = '\0', closeSign = '\0';
 
         is >> skipws >> insertValue >> openSign >> insertName;
-        if (insertName.at(insertName.length()-1) == ']')
+        if (insertName.at(insertName.length() - 1) == ']')
         {
             insertName = insertName.substr(0, insertName.length() - 1);
-        }else{
+        }
+        else
+        {
             is >> skipws >> closeSign;
         }
 
-
-        if (!NumberWithUnits::u.count(insertName))
+        if (NumberWithUnits::u.count(insertName) == 0)
         {
             throw invalid_argument("Incorrect input");
         }
