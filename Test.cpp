@@ -7,6 +7,8 @@
 using namespace ariel;
 using namespace std;
 
+bool t = true;
+
 TEST_CASE("Load & Read from file test")
 {
     //open file
@@ -92,10 +94,10 @@ TEST_CASE("not equal function unconnected type")
     NumberWithUnits u19{3.33, "r_ILS"}; //1 dolar
     NumberWithUnits u22{6, "r_USD"};
 
-    CHECK_THROWS(u11.operator!=(u4));
-    CHECK_THROWS(u12.operator!=(u5));
-    CHECK_THROWS(u22.operator!=(u1));
-    CHECK_THROWS(u19.operator!=(u18));
+    CHECK_THROWS(t = (u11 != u4));
+    CHECK_THROWS(t = (u12 != u5));
+    CHECK_THROWS(t = (u22 != u1));
+    CHECK_THROWS(t = (u19 != u18));
 }
 
 TEST_CASE("Less equal function")
@@ -138,10 +140,10 @@ TEST_CASE("Less equal function unconnected type")
     NumberWithUnits u19{3.33, "r_ILS"}; //1 dolar
     NumberWithUnits u22{6, "r_USD"};
 
-    CHECK_THROWS(u4.operator<=(u11));
-    CHECK_THROWS(u5.operator<=(u12));
-    CHECK_THROWS(u22.operator<=(u1));
-    CHECK_THROWS(u19.operator<=(u18));
+    CHECK_THROWS(t = (u11 <= u4));
+    CHECK_THROWS(t = (u12 <= u5));
+    CHECK_THROWS(t = (u22 <= u1));
+    CHECK_THROWS(t = (u19 <= u18));
 }
 
 TEST_CASE("Less than function")
@@ -184,10 +186,10 @@ TEST_CASE("Less than function unconnected type")
     NumberWithUnits u19{3.33, "r_ILS"}; //1 dolar
     NumberWithUnits u22{6, "r_USD"};
 
-    CHECK_THROWS(u11.operator<(u4));
-    CHECK_THROWS(u5.operator<(u12));
-    CHECK_THROWS(u22.operator<(u1));
-    CHECK_THROWS(u19.operator<(u18));
+    CHECK_THROWS(t = (u11 < u4));
+    CHECK_THROWS(t = (u12 < u5));
+    CHECK_THROWS(t = (u22 < u1));
+    CHECK_THROWS(t = (u19 < u18));
 }
 
 TEST_CASE("greater equal function")
@@ -235,10 +237,10 @@ TEST_CASE("greater  equal function unconnected type")
     NumberWithUnits u19{3.33, "r_ILS"}; //1 dolar
     NumberWithUnits u22{6, "r_USD"};
 
-    CHECK_THROWS(u11.operator>=(u4));
-    CHECK_THROWS(u5.operator>=(u12));
-    CHECK_THROWS(u22.operator>=(u1));
-    CHECK_THROWS(u19.operator>=(u18));
+    CHECK_THROWS(t=(u11>=u4));
+    CHECK_THROWS(t=(u12>=u5));
+    CHECK_THROWS(t=(u22>=u1));
+    CHECK_THROWS(t=(u19>=u18));
 }
 
 TEST_CASE("greater than function")
@@ -281,10 +283,10 @@ TEST_CASE("greater than function unconnected type")
     NumberWithUnits u19{3.33, "r_ILS"}; //1 dolar
     NumberWithUnits u22{6, "r_USD"};
 
-    CHECK_THROWS(u11.operator>(u4));
-    CHECK_THROWS(u5.operator>(u12));
-    CHECK_THROWS(u22.operator>(u1));
-    CHECK_THROWS(u19.operator>(u18));
+    CHECK_THROWS(t=(u11>u4));
+    CHECK_THROWS(t=(u12>u5));
+    CHECK_THROWS(t=(u22>u1));
+    CHECK_THROWS(t=(u19>u18));
 }
 
 TEST_CASE("plus function same type")
@@ -616,14 +618,14 @@ TEST_CASE("Load & Read from file2 test")
 //Basic tests
 TEST_CASE("Equal function unconnected type after second read")
 {
-    CHECK_THROWS(NumberWithUnits(2, "r_class").operator==(NumberWithUnits(2, "r_EUR")));
-    CHECK_THROWS(NumberWithUnits(2, "r_class").operator!=(NumberWithUnits(2, "r_EUR")));
-    CHECK_THROWS(NumberWithUnits(2, "r_class").operator<=(NumberWithUnits(2, "r_EUR")));
-    CHECK_THROWS(NumberWithUnits(2, "r_class").operator<(NumberWithUnits(2, "r_EUR")));
-    CHECK_THROWS(NumberWithUnits(2, "r_class")+(NumberWithUnits(2, "r_EUR")));
-    CHECK_THROWS(NumberWithUnits(2, "r_class")+=(NumberWithUnits(2, "r_EUR")));
-    CHECK_THROWS(NumberWithUnits(2, "r_class")-(NumberWithUnits(2, "r_EUR")));
-    CHECK_THROWS(NumberWithUnits(2, "r_class")-=(NumberWithUnits(2, "r_EUR")));
+    CHECK_THROWS(t=(NumberWithUnits(2, "r_class")==(NumberWithUnits(2, "r_EUR"))));
+    CHECK_THROWS(t=(NumberWithUnits(2, "r_class")!=(NumberWithUnits(2, "r_EUR"))));
+    CHECK_THROWS(t=(NumberWithUnits(2, "r_class")<=(NumberWithUnits(2, "r_EUR"))));
+    CHECK_THROWS(t=(NumberWithUnits(2, "r_class")<(NumberWithUnits(2, "r_EUR"))));
+    CHECK_THROWS(NumberWithUnits(2, "r_class") + (NumberWithUnits(2, "r_EUR")));
+    CHECK_THROWS(NumberWithUnits(2, "r_class") += (NumberWithUnits(2, "r_EUR")));
+    CHECK_THROWS(NumberWithUnits(2, "r_class") - (NumberWithUnits(2, "r_EUR")));
+    CHECK_THROWS(NumberWithUnits(2, "r_class") -= (NumberWithUnits(2, "r_EUR")));
 }
 
 TEST_CASE("Equal function after second read")
