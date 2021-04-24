@@ -14,7 +14,7 @@ namespace ariel
     void NumberWithUnits::read_units(ifstream &file)
     {
         if (file)
-        {
+        { 
             string myText;
             while (getline(file, myText))
             {
