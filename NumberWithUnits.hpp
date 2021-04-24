@@ -50,5 +50,6 @@ namespace ariel
         friend std::ostream &operator<<(std::ostream &os, const NumberWithUnits &n);
         friend std::istream &operator>>(std::istream &is, NumberWithUnits &n);
     };
+    
 
 }
