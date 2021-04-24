@@ -60,7 +60,7 @@ namespace ariel
         return NumberWithUnits::u.at(one).count(two) == 1;
     }
 
-    NumberWithUnits::NumberWithUnits(const double n, const string s) : num(n), name(s)
+    NumberWithUnits::NumberWithUnits(const double n, const string &s) : num(n), name(s)
     {
         if (u.count(s) == 0)
         {
@@ -197,7 +197,7 @@ namespace ariel
         num++;
         return *this;
     }
-    const NumberWithUnits NumberWithUnits::operator++(int) // postfix - a++
+    NumberWithUnits NumberWithUnits::operator++(int) // postfix - a++
     {
         NumberWithUnits copy = *this;
         num++;
@@ -209,7 +209,7 @@ namespace ariel
         num--;
         return *this;
     }
-    const NumberWithUnits NumberWithUnits::operator--(int) // postfix - a--
+    NumberWithUnits NumberWithUnits::operator--(int) // postfix - a--
     {
         NumberWithUnits copy = *this;
         num--;
@@ -269,7 +269,8 @@ namespace ariel
         double insertValue = 0;
         string insertName;
 
-        char openSign = '\0', closeSign = '\0';
+        char openSign = '\0';
+        char closeSign = '\0';
 
         is >> skipws >> insertValue >> openSign >> insertName;
         if (insertName.at(insertName.length() - 1) == ']')

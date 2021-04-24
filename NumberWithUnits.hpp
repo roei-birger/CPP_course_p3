@@ -14,7 +14,7 @@ namespace ariel
     public:
         static void read_units(std::ifstream &);
         static std::map<std::string, std::map<std::string, double>> u;
-        NumberWithUnits(double, std::string);
+        NumberWithUnits(double, const std::string&);
 
         //compare function
         bool operator==(const NumberWithUnits &n) const;
@@ -29,10 +29,10 @@ namespace ariel
         NumberWithUnits &operator-=(const NumberWithUnits &n);
 
         NumberWithUnits &operator++();         // prefix  - ++a
-        const NumberWithUnits operator++(int); // postfix - a++
+        NumberWithUnits operator++(int); // postfix - a++
 
         NumberWithUnits &operator--();         // prefix  - --a
-        const NumberWithUnits operator--(int); // postfix - a--
+        NumberWithUnits operator--(int); // postfix - a--
 
         //plus, minus function
         friend NumberWithUnits operator+(const NumberWithUnits &n1, const NumberWithUnits &n2);
