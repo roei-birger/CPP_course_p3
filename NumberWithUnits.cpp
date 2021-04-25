@@ -11,10 +11,10 @@ namespace ariel
     map<string, map<string, double>> NumberWithUnits::u;
 
 
-    void NumberWithUnits::read_units(ifstream &file)
+        void NumberWithUnits::read_units(ifstream &file)
     {
         if (file)
-        { 
+        {
             string myText;
             while (getline(file, myText))
             {
@@ -34,14 +34,14 @@ namespace ariel
 
                 for (auto i : u.at(sunName))
                 {
-                    u.at(i.first).insert({dadName, 1 / (i.second * num)});
-                    u.at(dadName).insert({i.first, (i.second * num)});
+                    u.at(i.first).insert({dadName, 1 / (num * i.second)});
+                    u.at(dadName).insert({i.first, i.second * num});
                 }
 
                 for (auto i : u.at(dadName))
                 {
-                    u.at(i.first).insert({sunName, (i.second * num)});
-                    u.at(sunName).insert({i.first, 1 / (i.second * num)});
+                    u.at(i.first).insert({sunName, num / i.second});
+                    u.at(sunName).insert({i.first, i.second / num});
                 }
 
                 u.at(dadName).insert({sunName, num});
