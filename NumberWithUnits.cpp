@@ -3,15 +3,15 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#define EPS 0.001
 using namespace std;
 
 namespace ariel
 {
+    const double EPS = 0.001;
+
     map<string, map<string, double>> NumberWithUnits::u;
 
-
-        void NumberWithUnits::read_units(ifstream &file)
+    void NumberWithUnits::read_units(ifstream &file)
     {
         if (file)
         {
@@ -19,33 +19,34 @@ namespace ariel
             while (getline(file, myText))
             {
                 string dadName, equalOperator, sunName;
-                double a, num;
+                double a = 1;
+                double num = 0;
                 istringstream iss(myText);
                 iss >> skipws >> a >> dadName >> equalOperator >> num >> sunName;
 
-                if (!u.count(dadName))
+                if (u.count(dadName) == 0)
                 {
                     u.insert({dadName, map<string, double>{}});
                 }
-                if (!u.count(sunName))
+                if (u.count(sunName) == 0)
                 {
                     u.insert({sunName, map<string, double>{}});
                 }
 
-                for (auto i : u.at(sunName))
+                for (auto const &i : u.at(sunName))
                 {
-                    u.at(i.first).insert({dadName, 1 / (num * i.second)});
+                    u.at(i.first).insert({dadName, a / (num * i.second)});
                     u.at(dadName).insert({i.first, i.second * num});
                 }
 
-                for (auto i : u.at(dadName))
+                for (auto const &i : u.at(dadName))
                 {
                     u.at(i.first).insert({sunName, num / i.second});
                     u.at(sunName).insert({i.first, i.second / num});
                 }
 
                 u.at(dadName).insert({sunName, num});
-                u.at(sunName).insert({dadName, (1 / num)});
+                u.at(sunName).insert({dadName, (a / num)});
             }
             file.close();
         }
@@ -66,7 +67,6 @@ namespace ariel
         {
             throw runtime_error("Unknown _unit");
         }
-        
     }
 
     //compare function
@@ -76,7 +76,7 @@ namespace ariel
         {
             return (abs(num - n.num) < EPS);
         }
-         if (isConnect(name, n.name))
+        if (isConnect(name, n.name))
         {
             double tempAmount = u.at(n.name).at(name);
             return (abs(num - (tempAmount * n.num)) < EPS);
@@ -117,7 +117,7 @@ namespace ariel
     {
         if (name == n.name)
         {
-        
+
             return num < n.num;
         }
         if (isConnect(name, n.name))
@@ -132,7 +132,7 @@ namespace ariel
     {
         if (name == n.name)
         {
-            
+
             return num > n.num;
         }
         if (isConnect(name, n.name))
@@ -147,7 +147,7 @@ namespace ariel
     {
         if (name == n.name)
         {
-            
+
             return num >= n.num;
         }
         if (isConnect(name, n.name))
